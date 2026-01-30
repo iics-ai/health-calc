@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康進化試算</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; background: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .card { width: 100%; max-width: 380px; padding: 25px; border: 1px solid #eef2f3; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
+        h2 { color: #2c3e50; text-align: center; font-size: 1.4em; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #4a5568; font-weight: bold; font-size: 0.95em; }
+        input { width: 100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 10px; box-sizing: border-box; font-size: 16px; -webkit-appearance: none; outline: none; }
+        input:focus { border-color: #4299e1; }
+        .btn { width: 100%; background: #38a169; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .btn:active { transform: scale(0.98); background: #2f855a; }
+        .result { margin-top: 25px; padding: 20px; background: #ebf8ff; border-radius: 15px; text-align: center; display: none; border: 1px solid #bee3f8; }
+        .score { font-size: 2.5em; color: #2b6cb0; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>健康進化試算</h2>
+        <div class="input-group"><label>初始體重 (kg)</label><input type="number" id="sw" placeholder="例如: 80" step="0.1"></div>
+        <div class="input-group"><label>初始體脂 (%)</label><input type="number" id="sf" placeholder="例如: 25" step="0.1"></div>
+        <hr style="border:0; border-top: 1px dashed #cbd5e0; margin: 20px 0;">
+        <div class="input-group"><label>目前體重 (kg)</label><input type="number" id="ew" step="0.1"></div>
+        <div class="input-group"><label>目前體脂 (%)</label><input type="number" id="ef" step="0.1"></div>
+        <button class="btn" onclick="calc()">即時試算指標</button>
+        <div id="res" class="result">
+            <div style="color:#4a5568; font-size:1em; margin-bottom: 5px;">您的健康進化總分</div>
+            <div class="score" id="total">0%</div>
+            <div style="font-size:0.85em; color:#718096; margin-top:10px; border-top: 1px solid #bee3f8; padding-top: 10px;">
+                體重進步: <span id="wp">0</span>% | 體脂進步: <span id="fp">0</span>%
+            </div>
+        </div>
+    </div>
+    <script>
+        function calc() {
+            var a = parseFloat(document.getElementById('sw').value),
+                b = parseFloat(document.getElementById('sf').value),
+                c = parseFloat(document.getElementById('ew').value),
+                d = parseFloat(document.getElementById('ef').value);
+            if(a > 0 && b > 0 && c > 0 && d > 0){
+                var w = ((a - c) / a) * 100,
+                    f = ((b - d) / b) * 100,
+                    t = (w * 0.5) + (f * 0.5);
+                document.getElementById('wp').innerText = w.toFixed(2);
+                document.getElementById('fp').innerText = f.toFixed(2);
+                document.getElementById('total').innerText = t.toFixed(2) + "%";
+                document.getElementById('res').style.display = 'block';
+                window.scrollTo(0, document.body.scrollHeight);
+            } else { alert('請填寫完整且大於 0 的數據哦！'); }
+        }
+    </script>
+</body>
+</html>
